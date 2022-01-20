@@ -3,30 +3,30 @@ import { Fog, Vector3 } from 'three';
 import { Lighting } from '../lighting/lighting';
 import { Movable, MovableProps } from '../objects/movable/movable';
 import { World } from '../objects/world/world';
-import { Singleton } from '../singleton/singleton';
+import { Global } from '../global/global';
 
 export class ThreeView {
     private m_Camera: THREE.PerspectiveCamera;
 
     constructor(_canvasRef: HTMLCanvasElement) {
-      Singleton.InitRenderer(_canvasRef, true);
+      Global.InitRenderer(_canvasRef, true);
       
       this.m_Camera = new THREE.PerspectiveCamera(50, (window.innerWidth - 250) / window.innerHeight, 1, 100);
       this.m_Camera.position.add(new Vector3(0, 1, 10));
-      Singleton.InitCamera(this.m_Camera);
+      Global.InitCamera(this.m_Camera);
 
-      Singleton.Scene.add(new Lighting());
+      Global.Scene.add(new Lighting());
 
       var geo = new THREE.BoxGeometry(1, 1, 1);
       const props = {type: "craneCube", color: 0x00ff00, geometry: geo} as MovableProps;
       var craneCube = new Movable(props);
-      Singleton.Scene.add(craneCube);
+      Global.Scene.add(craneCube);
 
       const world = new World();
-      Singleton.Scene.add(world);
+      Global.Scene.add(world);
 
       const fog = new Fog('black', 10, 30);
-      Singleton.Scene.fog = fog;
+      Global.Scene.fog = fog;
 
       this.update();
     }
@@ -38,12 +38,12 @@ export class ThreeView {
 
     onClick(event: any) {
       // Mouse click
-      Singleton.ToolManager.getCurrentTool().onClick(event);
+      Global.ToolManager.getCurrentTool().onClick(event);
     }
 
     onRightClick(event: any) {
       // Mouse click
-      Singleton.ToolManager.getCurrentTool().onRightClick(event);
+      Global.ToolManager.getCurrentTool().onRightClick(event);
     }
 
     onMouseMove(event: any) {
@@ -51,14 +51,14 @@ export class ThreeView {
     }
 
     onWindowResize(_viewportWidth: number, _viewportHeight: number) {
-        Singleton.Renderer.setSize(_viewportWidth, _viewportHeight);
+        Global.Renderer.setSize(_viewportWidth, _viewportHeight);
         this.m_Camera.aspect = _viewportWidth / _viewportHeight;
         this.m_Camera.updateProjectionMatrix();
     }
 
     // ******************* RENDER LOOP ******************* //
     update(_time?: number) {
-        Singleton.Renderer.render(Singleton.Scene, this.m_Camera);
+        Global.Renderer.render(Global.Scene, this.m_Camera);
 
         requestAnimationFrame(this.update.bind(this));
     }

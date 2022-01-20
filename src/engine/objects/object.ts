@@ -1,5 +1,6 @@
 import { BufferGeometry, ColorRepresentation, Mesh, MeshStandardMaterial, Object3D, Vector3 } from "three";
-import { RaycastLayer } from "../layers";
+import { RaycastLayer } from "../raycast/raycast";
+
 
 type BaseProps = {
     type: string;
@@ -21,14 +22,16 @@ export type ObjectProps = BaseProps & (BufferGeoProps | PointsProps);
 export class CraneObject extends Object3D {
     private m_IsCraneObject: boolean = true;
     public get isCraneObject() { return this.m_IsCraneObject };
+
     protected m_Geometry: BufferGeometry;
     protected m_Material: MeshStandardMaterial;
     protected m_Mesh: Mesh;
+
+    protected m_RaycastLayer: RaycastLayer = RaycastLayer.CRANE;
+    public get raycastLayer() { return this.m_RaycastLayer };
     
     constructor(_props: ObjectProps) {
         super();
-
-        this.layers.set(RaycastLayer.CRANE);
 
         if(!!_props.geometry) {
             this.m_Geometry = _props.geometry;
@@ -37,7 +40,6 @@ export class CraneObject extends Object3D {
         }
 
         this.m_Material = new MeshStandardMaterial({ color: _props.color, fog: false });
-    
         this.m_Mesh = new Mesh(this.m_Geometry, this.m_Material);
 
         this.add(this.m_Mesh);

@@ -1,5 +1,5 @@
 
-import { Singleton } from "../../../engine/singleton/singleton";
+import { Global } from "../../../engine/global/global";
 import { BaseTool } from "../../../engine/tool";
 import { SidebarComponent } from "../sidebar";
 import { ThreeComponent } from "../threeComponent/threeComponent";
@@ -7,7 +7,7 @@ import './container.css'
 
 function ContainerComponent() {
   const tools:BaseTool[] = [];
-  const toolBox = Singleton.ToolManager.getToolBox();
+  const toolBox = Global.ToolManager.getToolBox();
   Object.keys(toolBox).map((name) => {
     return tools.push((toolBox as any)[name]);
   })

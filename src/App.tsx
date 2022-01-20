@@ -1,10 +1,10 @@
 import './App.css';
-import { Singleton } from './engine/singleton/singleton';
+import { Global } from './engine/global/global';
 import { ContainerComponent } from './view/components/container';
 
 function App() {
 
-  Singleton.InitToolManager();
+  Global.InitToolManager();
 
   return (
     <div className="App">

@@ -1,6 +1,6 @@
 import { BufferGeometry, Line, LineBasicMaterial, MathUtils, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, Vector3 } from "three";
-import { RaycastLayer } from "../../layers";
-import { Singleton } from "../../singleton/singleton";
+import { RaycastLayer } from "../../raycast/raycast";
+import { Global } from "../../global/global";
 
 export class World extends Object3D {
     private m_StepsBig: number;
@@ -17,7 +17,7 @@ export class World extends Object3D {
         this.m_StepsSmall = 1;
 
         // create ground plane
-        const planeSize = (Singleton.OrbitControls.object as PerspectiveCamera).far * 2; // create plane that camera can theoratically see all edges and does not clip via far value
+        const planeSize = (Global.OrbitControls.object as PerspectiveCamera).far * 2; // create plane that camera can theoratically see all edges and does not clip via far value
         const geo = new PlaneBufferGeometry(planeSize, planeSize);
         const material = new MeshBasicMaterial({color: 'black'});
         const mesh = new Mesh(geo, material);
@@ -63,14 +63,14 @@ export class World extends Object3D {
         const lineSmall = new Line(lineSmallGeo, lineSmallMaterial);
         this.add(lineSmall);
 
-        Singleton.OrbitControls.addEventListener('change', () => updateGridPosition(this));
+        Global.OrbitControls.addEventListener('change', () => updateGridPosition(this));
     }
 }
 
 const updateGridPosition = (_world: World) => {
     // move grid "with" camera
     // grid sticks to camera position and moves back at a threshold of this.stepsBig
-    const camPos = Singleton.OrbitControls.object.position;
+    const camPos = Global.OrbitControls.object.position;
 
     if(Math.abs(camPos.x-_world.position.x) > _world.StepsBig) {
         _world.position.set(camPos.x-(camPos.x%_world.StepsBig), _world.position.y, _world.position.z);

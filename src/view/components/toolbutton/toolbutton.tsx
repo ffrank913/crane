@@ -1,4 +1,4 @@
-import { Singleton } from "../../../engine/singleton/singleton";
+import { Global } from "../../../engine/global/global";
 import { ToolType } from "../../../engine/tool";
 import { Icon } from "../../icon";
 import { ButtonComponent } from "../button";
@@ -13,7 +13,7 @@ function ToolButtonComponent(_props: ButtonProps) {
   const { tool, symbol } = _props;
 
   const onClick = () => {
-    Singleton.ToolManager.setToolTo(tool);
+    Global.ToolManager.setToolTo(tool);
   };
 
   let icon = undefined;

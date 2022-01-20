@@ -2,8 +2,8 @@ import { Raycaster, Vector2 } from "three";
 import { ToolType } from "..";
 import { Icon } from "../../../view/icon";
 import { Icons } from "../../../view/icons";
-import { RaycastLayer } from "../../layers";
-import { Singleton } from "../../singleton/singleton";
+import { RaycastLayer } from "../../raycast/raycast";
+import { Global } from "../../global/global";
 import { BaseTool } from "../base/basetool";
 
 export class SelectTool extends BaseTool {
@@ -20,14 +20,11 @@ export class SelectTool extends BaseTool {
     }
 
     public onClick(event: MouseEvent): void {
-        console.log("click");
-        const mousePos = {x: (event.clientX / window.innerWidth) * 2 - 1, y: -(event.clientY / window.innerHeight) * 2 + 1}
-        this.m_Raycaster.setFromCamera(mousePos, Singleton.OrbitControls.object);
-        this.m_Raycaster.layers.set(RaycastLayer.CRANE);
-        const intersects = this.m_Raycaster.intersectObjects(Singleton.Scene.children);
+        const intersects = Global.Raycaster.raycastMouse(event.clientX, event.clientY, { mask: RaycastLayer.CRANE | RaycastLayer.ARCHITECTURE });
+
+        console.log(intersects);
         if (intersects.length > 0) {
-            console.log(intersects);
-          }
+        }
     }
 
     public onRightClick(event: MouseEvent): void {
