@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Fog, Vector3 } from 'three';
 import { Lighting } from '../lighting/lighting';
-import { CraneObject, ObjectProps } from '../objects/object';
+import { Movable, MovableProps } from '../objects/movable/movable';
 import { World } from '../objects/world/world';
 import { Singleton } from '../singleton/singleton';
 
@@ -18,8 +18,8 @@ export class ThreeView {
       Singleton.Scene.add(new Lighting());
 
       var geo = new THREE.BoxGeometry(1, 1, 1);
-      const props = {type: "craneCube", color: 0x00ff00, geometry: geo, movable: false} as ObjectProps;
-      var craneCube = new CraneObject(props);
+      const props = {type: "craneCube", color: 0x00ff00, geometry: geo} as MovableProps;
+      var craneCube = new Movable(props);
       Singleton.Scene.add(craneCube);
 
       const world = new World();
@@ -36,7 +36,17 @@ export class ThreeView {
       // Whatever you need to do with React props
     }
 
-    onMouseMove() {
+    onClick(event: any) {
+      // Mouse click
+      Singleton.ToolManager.getCurrentTool().onClick(event);
+    }
+
+    onRightClick(event: any) {
+      // Mouse click
+      Singleton.ToolManager.getCurrentTool().onRightClick(event);
+    }
+
+    onMouseMove(event: any) {
       // Mouse moves
     }
 

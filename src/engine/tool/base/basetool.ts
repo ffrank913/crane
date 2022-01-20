@@ -24,4 +24,12 @@ export class BaseTool {
         delete this.m_symbol;
         return true;
     }
+
+    public onClick(event: MouseEvent): void {
+        console.warn("BaseTool onClick called. Really that you wanted?");
+    }
+
+    public onRightClick(event: MouseEvent): void {
+        console.warn("BaseTool onClick called. Really that you wanted?");
+    }
 }

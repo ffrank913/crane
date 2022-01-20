@@ -1,4 +1,5 @@
 import { BufferGeometry, Line, LineBasicMaterial, MathUtils, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, Vector3 } from "three";
+import { RaycastLayer } from "../../layers";
 import { Singleton } from "../../singleton/singleton";
 
 export class World extends Object3D {
@@ -9,6 +10,8 @@ export class World extends Object3D {
 
     constructor() {
         super();
+
+        this.layers.set(RaycastLayer.WORLD);
 
         this.m_StepsBig = 5;
         this.m_StepsSmall = 1;

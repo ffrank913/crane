@@ -20,6 +20,8 @@ export class ThreeComponent extends Component {
         this.threeView = new ThreeView(canvas);
 
         // Init any event listeners
+        canvas.addEventListener('click', this.mouseClick);
+        canvas.addEventListener('contextmenu', this.mouseRightClick);
         window.addEventListener('mousemove', this.mouseMove);
         window.addEventListener('resize', this.handleResize);
     }
@@ -31,14 +33,28 @@ export class ThreeComponent extends Component {
     }
 
     componentWillUnmount() {
+        // Get canvas
+        const canvas = this.canvasRef.current;
+        if(!canvas) return;
+
         // Remove any event listeners
+        canvas.removeEventListener('click', this.mouseClick);
+        canvas.removeEventListener('contextmenu', this.mouseRightClick);
         window.removeEventListener('mousemove', this.mouseMove);
         window.removeEventListener('resize', this.handleResize);
     }
 
     // ******************* EVENT LISTENERS ******************* //
-    mouseMove = (event: any) => {
-        this.threeView.onMouseMove();
+    mouseClick = (event: MouseEvent) => {
+        this.threeView.onClick(event)
+    }
+
+    mouseRightClick = (event: MouseEvent) => {
+        this.threeView.onRightClick(event)
+    }
+
+    mouseMove = (event: MouseEvent) => {
+        this.threeView.onMouseMove(event);
     }
 
     handleResize = () => {
