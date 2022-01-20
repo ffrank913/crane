@@ -3,3 +3,8 @@ import { FloorTool } from "./floor/floortool";
 import { BaseTool } from "./base/basetool";
 
 export { SelectTool, FloorTool, BaseTool };
+
+export enum ToolTypes { 
+    SELECT, 
+    FLOOR
+};

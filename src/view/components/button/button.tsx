@@ -1,8 +1,10 @@
+import { ToolTypes } from "../../../engine/tool";
 import { Icon } from "../../icon";
 import { IconComponent } from "../icon";
 import './button.css'
 
 type ButtonProps = {
+  tool: ToolTypes;
   onClick?: (e: any) => {};
   symbol?: Icon;
 }

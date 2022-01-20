@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { ThreeView } from '../threeView';
+import { ThreeView } from '../../../engine/threeView';
 import './threeComponent.css'
 
 export class ThreeComponent extends Component {

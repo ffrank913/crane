@@ -1,9 +1,10 @@
+import { ToolTypes } from "..";
 import { BaseTool } from "../base/basetool";
 
 export class FloorTool extends BaseTool {
-    constructor(symbolPath: string) {
-        super(symbolPath);
+    constructor() {
+        super(ToolTypes.FLOOR);
 
-        this.name = "FloorTool";
+        this.m_name = "FloorTool";
     }
 }

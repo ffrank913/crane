@@ -16,6 +16,7 @@ function ButtonGridComponent(_props: ButtonGridProps) {
           ? tools.map((tool, i) => {
             return <ButtonComponent
               key={tool.getName()+i}
+              tool={tool.getType()}
               onClick={tool.getName}
               symbol={tool.getSymbol()}
             />
