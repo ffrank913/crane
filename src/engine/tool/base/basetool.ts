@@ -1,4 +1,4 @@
-import { ToolTypes } from "..";
+import { ToolType } from "..";
 import { Icon } from "../../../view/icon";
 
 
@@ -9,9 +9,9 @@ export class BaseTool {
     
     protected m_name: string = '';
     protected m_symbol: Icon | undefined = undefined;
-    protected m_type: ToolTypes;
+    protected m_type: ToolType;
 
-    constructor(_type: ToolTypes) {
+    constructor(_type: ToolType) {
         this.m_type = _type;
     }
 

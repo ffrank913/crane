@@ -1,4 +1,4 @@
-import { BaseTool, ToolTypes, SelectTool, FloorTool } from ".";
+import { BaseTool, ToolType, SelectTool, FloorTool } from ".";
 
 export class ToolManager {
     constructor() {
@@ -12,13 +12,13 @@ export class ToolManager {
     private m_toolBox = {} as ToolBox;
     private m_currentTool: BaseTool;
 
-    public setToolTo(_newTool: ToolTypes) {
+    public setToolTo(_newTool: ToolType) {
         switch(_newTool) {
-            case ToolTypes.SELECT: {
+            case ToolType.SELECT: {
                 this.m_currentTool = this.m_toolBox.selectTool;
                 break;
             }
-            case ToolTypes.FLOOR: {
+            case ToolType.FLOOR: {
                 this.m_currentTool = this.m_toolBox.floorTool;
                 break;
             }

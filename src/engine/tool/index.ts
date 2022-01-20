@@ -4,7 +4,7 @@ import { BaseTool } from "./base/basetool";
 
 export { SelectTool, FloorTool, BaseTool };
 
-export enum ToolTypes { 
+export enum ToolType { 
     SELECT, 
     FLOOR
 };
