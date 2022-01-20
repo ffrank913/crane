@@ -1,5 +1,5 @@
 import { BaseTool } from "../../../engine/tool";
-import { ButtonComponent } from "../button";
+import { ToolButtonComponent } from "../toolbutton";
 import './buttongrid.css';
 
 type ButtonGridProps = {
@@ -14,10 +14,9 @@ function ButtonGridComponent(_props: ButtonGridProps) {
       {
         (tools && tools.length > 0) 
           ? tools.map((tool, i) => {
-            return <ButtonComponent
+            return <ToolButtonComponent
               key={tool.getName()+i}
               tool={tool.getType()}
-              onClick={tool.getName}
               symbol={tool.getSymbol()}
             />
           }) 

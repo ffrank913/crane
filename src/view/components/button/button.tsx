@@ -1,11 +1,10 @@
-import { ToolTypes } from "../../../engine/tool";
+import { ToolType } from "../../../engine/tool";
 import { Icon } from "../../icon";
 import { IconComponent } from "../icon";
 import './button.css'
 
 type ButtonProps = {
-  tool: ToolTypes;
-  onClick?: (e: any) => {};
+  onClick?: (e: any) => void;
   symbol?: Icon;
 }
 
@@ -18,7 +17,7 @@ function ButtonComponent(_props: ButtonProps) {
   }
 
   return (
-    <button className="Button" onClick={onClick}>
+    <button className="Button" onClick={onClick ? onClick : undefined}>
       {icon}
     </button>
   );
