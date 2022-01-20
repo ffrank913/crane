@@ -3,67 +3,66 @@ import { CraneObject } from "../objects/object";
 import { Global } from "../global/global";
 
 export enum RaycastLayer {
-    NONE =          0x00000000,
-    WORLD =         0x00000001,
-    CRANE =         0x00000002,
-    ARCHITECTURE =  0x00000004,
+  NONE =          0x00000000,
+  GROUND =        0x00000001,
+  CRANE =         0x00000002,
+  ARCHITECTURE =  0x00000004,
 }
 
 export type CraneRaycasterParams = {
-    mask: RaycastLayer;
+  mask: RaycastLayer;
 }
 
 export class CraneRaycaster extends Raycaster {
-    private m_Raycaster: Raycaster;
-    private m_RaycastResults: Intersection[];
+  private m_Raycaster: Raycaster;
+  private m_RaycastResults: Intersection[];
 
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.m_Raycaster = new Raycaster();
-        this.m_RaycastResults = [];
-    }
+    this.m_Raycaster = new Raycaster();
+    this.m_RaycastResults = [];
+  }
 
-    public raycast(origin: Vector3, direction: Vector3, params?: CraneRaycasterParams): Intersection[] {
-        this.m_RaycastResults = [];
+  public raycast(origin: Vector3, direction: Vector3, params?: CraneRaycasterParams): Intersection[] {
+    this.m_RaycastResults = [];
 
-        this.m_Raycaster.set(origin, direction);
+    this.m_Raycaster.set(origin, direction);
 
-        return this.raycastInternal(params);
-    }
+    return this.raycastInternal(params);
+  }
 
-    public raycastMouse(clientX: number, clientY: number, params?: CraneRaycasterParams): Intersection[] {
-        this.m_RaycastResults = [];
+  public raycastMouse(clientX: number, clientY: number, params?: CraneRaycasterParams): Intersection[] {
+    this.m_RaycastResults = [];
 
-        const mousePos = {x: (clientX / Global.Renderer.domElement.width) * 2 - 1, y: -(clientY / Global.Renderer.domElement.height) * 2 + 1}
-        this.m_Raycaster.setFromCamera(mousePos, Global.OrbitControls.object);
+    const mousePos = {x: (clientX / Global.Renderer.domElement.width) * 2 - 1, y: -(clientY / Global.Renderer.domElement.height) * 2 + 1}
+    this.m_Raycaster.setFromCamera(mousePos, Global.OrbitControls.object);
 
-        return this.raycastInternal(params);
-    }
+    return this.raycastInternal(params);
+  }
 
-    private raycastInternal(params?: CraneRaycasterParams): Intersection[] {
-        // collect intersecting objects
-        this.m_RaycastResults = this.m_Raycaster.intersectObjects(Global.Scene.children);
+  private raycastInternal(params?: CraneRaycasterParams): Intersection[] {
+    // collect intersecting objects
+    this.m_RaycastResults = this.m_Raycaster.intersectObjects(Global.Scene.children);
+    
+    // apply filter depending on params
+    if(params) this.paramsFilter(params);
+    
+    // sort results for distance (nearest first)
+    this.m_RaycastResults = this.m_RaycastResults.sort((a, b) => a.distance - b.distance);
 
-        // apply filter depending on params
-        if(params) this.paramsFilter(params);
+    return this.m_RaycastResults;
+  }
 
-        // sort results for distance (nearest first)
-        this.m_RaycastResults = this.m_RaycastResults.sort((a, b) => a.distance - b.distance);
-
-        return this.m_RaycastResults;
-    }
-
-    private paramsFilter(params: CraneRaycasterParams) {
-        if(params.mask) {
-            this.m_RaycastResults = this.m_RaycastResults.filter((intersect) => {
-                if(intersect.object.parent && "raycastLayer" in intersect.object.parent) {
-                    const crane = (intersect.object.parent as CraneObject);
-                    if((crane.raycastLayer & params.mask) === crane.raycastLayer) {
-                        return true;
-                    }
-                }
-            });
+  private paramsFilter(params: CraneRaycasterParams) {
+    if(params.mask) {
+      this.m_RaycastResults = this.m_RaycastResults.filter((intersect) => {
+        if(intersect.object.parent && "raycastLayer" in intersect.object.parent) {
+          const crane = (intersect.object.parent as CraneObject);
+          if(crane.raycastLayer === RaycastLayer.NONE) return false;
+          return (crane.raycastLayer & params.mask) === crane.raycastLayer;
         }
+      });
     }
+  }
 }

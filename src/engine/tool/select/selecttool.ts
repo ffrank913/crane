@@ -1,33 +1,41 @@
-import { Raycaster, Vector2 } from "three";
 import { ToolType } from "..";
 import { Icon } from "../../../view/icon";
 import { Icons } from "../../../view/icons";
 import { RaycastLayer } from "../../raycast/raycast";
 import { Global } from "../../global/global";
 import { BaseTool } from "../base/basetool";
+import { Movable } from "../../objects/movable/movable";
 
+type DragInfo = {
+  object: Movable,
+
+}
 export class SelectTool extends BaseTool {
-    private m_Raycaster: Raycaster;
-    
-    constructor() {
-        super(ToolType.SELECT);
+  constructor() {
+    super(ToolType.SELECT);
 
-        this.m_symbol = new Icon(Icons.Pointer);
+    this.m_symbol = new Icon(Icons.Pointer);
 
-        this.m_name = "SelectTool";
+    this.m_name = "SelectTool";
+  }
 
-        this.m_Raycaster = new Raycaster();
+  public onMouseDown(event: MouseEvent): void {
+    const intersects = Global.Raycaster.raycastMouse(event.clientX, event.clientY, { mask: RaycastLayer.ARCHITECTURE });
+
+    if (intersects.length > 0) {
+      console.log(intersects);
     }
+  }
 
-    public onClick(event: MouseEvent): void {
-        const intersects = Global.Raycaster.raycastMouse(event.clientX, event.clientY, { mask: RaycastLayer.CRANE | RaycastLayer.ARCHITECTURE });
+  public onMouseMove(event: MouseEvent): void {
+      
+  }
 
-        console.log(intersects);
-        if (intersects.length > 0) {
-        }
-    }
+  public onMouseUp(event: MouseEvent): void {
+      
+  }
 
-    public onRightClick(event: MouseEvent): void {
-        
-    }
+  private collectDragInfo() {
+
+  }
 }

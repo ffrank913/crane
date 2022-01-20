@@ -6,6 +6,7 @@ import { ThreeComponent } from "../threeComponent/threeComponent";
 import './container.css'
 
 function ContainerComponent() {
+  Global.InitToolManager();
   const tools:BaseTool[] = [];
   const toolBox = Global.ToolManager.getToolBox();
   Object.keys(toolBox).map((name) => {
