@@ -1,55 +1,68 @@
 import * as THREE from 'three';
 import { Fog, Vector3 } from 'three';
 import { Lighting } from '../lighting/lighting';
-import { CraneObject, ObjectProps } from '../objects/object';
+import { Movable, MovableProps } from '../objects/movable/movable';
 import { World } from '../objects/world/world';
-import { Singleton } from '../singleton/singleton';
+import { Global } from '../global/global';
+import { RaycastLayer } from '../raycast/raycast';
 
 export class ThreeView {
-    private m_Camera: THREE.PerspectiveCamera;
+  private m_Camera: THREE.PerspectiveCamera;
 
-    constructor(_canvasRef: HTMLCanvasElement) {
-      Singleton.InitRenderer(_canvasRef, true);
-      
-      this.m_Camera = new THREE.PerspectiveCamera(50, (window.innerWidth - 250) / window.innerHeight, 1, 100);
-      this.m_Camera.position.add(new Vector3(0, 1, 10));
-      Singleton.InitCamera(this.m_Camera);
+  constructor(_canvasRef: HTMLCanvasElement) {
+    Global.InitRenderer(_canvasRef, true);
+    
+    this.m_Camera = new THREE.PerspectiveCamera(50, (window.innerWidth - 250) / window.innerHeight, 1, 100);
+    this.m_Camera.position.add(new Vector3(0, 1, 10));
+    Global.InitCamera(this.m_Camera);
 
-      Singleton.Scene.add(new Lighting());
+    Global.Scene.add(new Lighting());
 
-      var geo = new THREE.BoxGeometry(1, 1, 1);
-      const props = {type: "craneCube", color: 0x00ff00, geometry: geo, movable: false} as ObjectProps;
-      var craneCube = new CraneObject(props);
-      Singleton.Scene.add(craneCube);
+    var geo = new THREE.BoxGeometry(1, 1, 1);
+    const props = {type: "craneCube", color: 0x00ff00, geoProps: { geometry: geo }, raycastLayer: RaycastLayer.ARCHITECTURE } as MovableProps;
+    var craneCube = new Movable(props);
+    craneCube.position.setY(0.5);
+    Global.Scene.add(craneCube);
 
-      const world = new World();
-      Singleton.Scene.add(world);
+    const world = new World();
+    Global.Scene.add(world);
 
-      const fog = new Fog('black', 10, 30);
-      Singleton.Scene.fog = fog;
+    const fog = new Fog('black', 10, 30);
+    Global.Scene.fog = fog;
 
-      this.update();
-    }
+    this.update();
+  }
 
-    // ******************* PUBLIC EVENTS ******************* //
-    updateValue(value: any) {
-      // Whatever you need to do with React props
-    }
+  // ******************* PUBLIC EVENTS ******************* //
+  updateValue(value: any) {
+    // Whatever you need to do with React props
+  }
 
-    onMouseMove() {
-      // Mouse moves
-    }
+  onMouseDown(event: any) {
+    // Mouse down
+    Global.ToolManager.getCurrentTool().onMouseDown(event);
+  }
 
-    onWindowResize(_viewportWidth: number, _viewportHeight: number) {
-        Singleton.Renderer.setSize(_viewportWidth, _viewportHeight);
-        this.m_Camera.aspect = _viewportWidth / _viewportHeight;
-        this.m_Camera.updateProjectionMatrix();
-    }
+  onMouseUp(event: any) {
+    // Mouse up
+    Global.ToolManager.getCurrentTool().onMouseUp(event);
+  }
 
-    // ******************* RENDER LOOP ******************* //
-    update(_time?: number) {
-        Singleton.Renderer.render(Singleton.Scene, this.m_Camera);
+  onMouseMove(event: any) {
+    // Mouse moves
+    Global.ToolManager.getCurrentTool().onMouseMove(event);
+  }
 
-        requestAnimationFrame(this.update.bind(this));
-    }
+  onWindowResize(_viewportWidth: number, _viewportHeight: number) {
+      Global.Renderer.setSize(_viewportWidth, _viewportHeight);
+      this.m_Camera.aspect = _viewportWidth / _viewportHeight;
+      this.m_Camera.updateProjectionMatrix();
+  }
+
+  // ******************* RENDER LOOP ******************* //
+  update(_time?: number) {
+      Global.Renderer.render(Global.Scene, this.m_Camera);
+
+      requestAnimationFrame(this.update.bind(this));
+  }
 }
