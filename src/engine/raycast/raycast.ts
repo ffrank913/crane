@@ -9,13 +9,13 @@ export enum RaycastLayer {
   ARCHITECTURE =  0x00000004,
 }
 
-enum SortingDistance {
+enum DistanceSorting {
   ASCENDING = 1,
   DESCENDING = 2,
 }
 
 export type CraneRaycasterParams = {
-  sortByDistance?: SortingDistance;
+  sortByDistance?: DistanceSorting;
   mask?: RaycastLayer;
 }
 
@@ -47,7 +47,7 @@ export class CraneRaycaster extends Raycaster {
     return this.raycastInternal(params);
   }
 
-  private raycastInternal(params: CraneRaycasterParams = { sortByDistance: SortingDistance.ASCENDING }): Intersection[] {
+  private raycastInternal(params: CraneRaycasterParams = { sortByDistance: DistanceSorting.ASCENDING }): Intersection[] {
     // collect intersecting objects
     this.m_RaycastResults = this.m_Raycaster.intersectObjects(Global.Scene.children);
     
@@ -75,12 +75,12 @@ export class CraneRaycaster extends Raycaster {
     // sort results for distance (nearest first)
     if(params.sortByDistance) {
       switch(params.sortByDistance) {
-        case SortingDistance.ASCENDING: {
+        case DistanceSorting.ASCENDING: {
           this.m_RaycastResults = this.m_RaycastResults.sort((a, b) => a.distance - b.distance);
           break;
         }
 
-        case SortingDistance.DESCENDING: {
+        case DistanceSorting.DESCENDING: {
           this.m_RaycastResults = this.m_RaycastResults.sort((a, b) => b.distance - a.distance);
           break;
         }
