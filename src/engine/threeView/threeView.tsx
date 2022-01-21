@@ -21,6 +21,7 @@ export class ThreeView {
     var geo = new THREE.BoxGeometry(1, 1, 1);
     const props = {type: "craneCube", color: 0x00ff00, geoProps: { geometry: geo }, raycastLayer: RaycastLayer.ARCHITECTURE } as MovableProps;
     var craneCube = new Movable(props);
+    craneCube.position.setY(0.5);
     Global.Scene.add(craneCube);
 
     const world = new World();
