@@ -8,14 +8,11 @@ import { Movable } from "../../objects/movable/movable";
 
 type DragInfo = {
   object: Movable,
-
 }
 export class SelectTool extends BaseTool {
   constructor() {
     super(ToolType.SELECT);
-
     this.m_symbol = new Icon(Icons.Pointer);
-
     this.m_name = "SelectTool";
   }
 
