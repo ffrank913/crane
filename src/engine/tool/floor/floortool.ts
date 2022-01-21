@@ -7,4 +7,16 @@ export class FloorTool extends BaseTool {
 
         this.m_name = "FloorTool";
     }
+
+    public onMouseDown(event: MouseEvent): void {
+        
+    }
+
+    public onMouseMove(event: MouseEvent): void {
+        
+    }
+
+    public onMouseUp(event: MouseEvent): void {
+        
+    }
 }

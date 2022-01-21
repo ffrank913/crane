@@ -1,5 +1,6 @@
 import { ToolType } from "..";
 import { Icon } from "../../../view/icon";
+import { Global } from "../../global/global";
 
 
 export class BaseTool {
@@ -26,14 +27,14 @@ export class BaseTool {
   }
 
   public onMouseDown(event: MouseEvent): void {
-    console.warn("BaseTool onClick called. Really that you wanted?");
+    console.warn("Missing implementation of onMouseDown in", this.m_name);
   }
 
   public onMouseUp(event: MouseEvent): void {
-    console.warn("BaseTool onClick called. Really that you wanted?");
+    console.warn("Missing implementation of onMouseUp in", this.m_name);
   }
 
   public onMouseMove(event: MouseEvent): void {
-    console.warn("BaseTool onClick called. Really that you wanted?");
+    console.warn("Missing implementation of onMouseMove in", this.m_name);
   }
 }
