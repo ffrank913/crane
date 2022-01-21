@@ -1,11 +1,13 @@
 import { WebGLRenderer, Scene, Camera } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { CraneRaycaster } from "../raycast/raycast";
 import { ToolManager } from "../tool/toolmanager";
 
-export class Singleton {
+export class Global {
     public static InitRenderer(_canvas: HTMLCanvasElement, _antialias: boolean) {
         this.m_Scene = new Scene();
         this.m_Renderer = new WebGLRenderer({canvas: _canvas, antialias: _antialias});
+        this.m_Raycaster = new CraneRaycaster();
     }
 
     public static InitToolManager() {
@@ -35,6 +37,11 @@ export class Singleton {
     private static m_ToolManager: ToolManager | undefined;
     public static get ToolManager(): ToolManager {
         return this.m_ToolManager!;
+    }
+
+    private static m_Raycaster: CraneRaycaster | undefined;
+    public static get Raycaster(): CraneRaycaster {
+        return this.m_Raycaster!;
     }
 }
 
