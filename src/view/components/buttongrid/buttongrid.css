@@ -5,7 +5,7 @@
     left: 0px;
     width: auto;
     height: fit-content;
-    background-color: #282c34;
+    background-color: transparent;
     margin: 16px;
     gap: 16px;
     grid-template-columns: repeat(auto-fit, minmax(48px, 48px));

@@ -6,15 +6,13 @@ import { IconComponent } from "../icon";
 
 type ButtonProps = {
   tool: ToolType;
+  onClick: (tt: ToolType) => void;
+  highlight?: boolean;
   symbol?: Icon;
 }
 
 function ToolButtonComponent(_props: ButtonProps) {
-  const { tool, symbol } = _props;
-
-  const onClick = () => {
-    Global.ToolManager.setToolTo(tool);
-  };
+  const { tool, symbol, onClick, highlight } = _props;
 
   let icon = undefined;
   if(symbol) {
@@ -22,7 +20,7 @@ function ToolButtonComponent(_props: ButtonProps) {
   }
 
   return (
-    <ButtonComponent symbol={symbol} onClick={onClick} />
+    <ButtonComponent symbol={symbol} onClick={() => onClick(tool)} highlight={highlight} />
   );
 }
   
