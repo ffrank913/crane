@@ -32,9 +32,7 @@ export class CraneRaycaster extends Raycaster {
 
   public raycast(origin: Vector3, direction: Vector3, params?: CraneRaycasterParams): Intersection[] {
     this.m_RaycastResults = [];
-
     this.m_Raycaster.set(origin, direction);
-
     return this.raycastInternal(params);
   }
 
@@ -46,6 +44,16 @@ export class CraneRaycaster extends Raycaster {
 
     return this.raycastInternal(params);
   }
+
+  public raycastTopDown(origin: Vector3, params?: CraneRaycasterParams): Intersection[] {
+    this.m_RaycastResults = [];
+    this.m_Raycaster.set(origin, new Vector3(0, -1, 0));
+    return this.raycastInternal(params);
+  }
+
+  // ################################################
+  // ############      INTERNAL       ###############
+  // ################################################
 
   private raycastInternal(params: CraneRaycasterParams = { sortByDistance: DistanceSorting.ASCENDING }): Intersection[] {
     // collect intersecting objects
