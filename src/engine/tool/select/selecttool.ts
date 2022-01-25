@@ -38,24 +38,16 @@ export class SelectTool extends BaseTool {
 
   public onMouseMove(event: MouseEvent): void {
     if(!this.m_DragInfo) return;
-
-    // find ground intersection to move object to
-    const groundIntersections = Global.Raycaster.raycastMouse(event.clientX, event.clientY, { mask: RaycastLayer.GROUND });
-    
-    // if no ground intersection cancel moving object
-    // can occur if you are not hitting ground surface while dragging
-    if(groundIntersections.length === 0) return;
-
-    // calculate drag position depending on ground intersection
-    this.m_DragTo = groundIntersections[0].point.clone().sub(this.m_DragInfo.objectOriginOffset);
-    
-    // set object position to drag position
-    this.m_DragInfo.object.position.copy(this.m_DragTo);
+    this.drag(this.m_DragInfo, event);
   }
 
   public onMouseUp(event: MouseEvent): void {
     this.endDrag();
   }
+
+  // ################################################
+  // ############   DRAG ALGORITHMS   ###############
+  // ################################################
 
   private startDrag(intersect: Intersection, event: MouseEvent) {
     // collect initial ground intersection to calculate offset to object origin
@@ -71,6 +63,21 @@ export class SelectTool extends BaseTool {
 
     // disable orbit controls while dragging
     Global.OrbitControls.enabled = false;
+  }
+
+  private drag(_dragInfo: DragInfo, event: MouseEvent) {
+    // find ground intersection to move object to
+    const groundIntersections = Global.Raycaster.raycastMouse(event.clientX, event.clientY, { mask: RaycastLayer.GROUND });
+    
+    // if no ground intersection cancel moving object
+    // can occur if you are not hitting ground surface while dragging
+    if(groundIntersections.length === 0) return;
+
+    // calculate drag position depending on ground intersection
+    this.m_DragTo = groundIntersections[0].point.clone().sub(_dragInfo.objectOriginOffset);
+    
+    // set object position to drag position
+    _dragInfo.object.position.copy(this.m_DragTo);
   }
   
   private endDrag() {
