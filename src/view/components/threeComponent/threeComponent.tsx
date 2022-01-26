@@ -1,9 +1,8 @@
 import React from 'react';
-import { Component } from 'react';
 import { ThreeView } from '../../../engine/threeView';
 import './threeComponent.css'
 
-export class ThreeComponent extends Component {
+export class ThreeComponent extends React.Component {
   private canvasRef: React.RefObject<HTMLCanvasElement>;
   private threeView: any;
 
@@ -21,9 +20,9 @@ export class ThreeComponent extends Component {
 
     // Init any event listeners
     canvas.addEventListener('mousedown', this.mouseDown);
+    canvas.addEventListener('mousemove', this.mouseMove);
     canvas.addEventListener('mouseup', this.mouseUp);
 
-    window.addEventListener('mousemove', this.mouseMove);
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -40,9 +39,9 @@ export class ThreeComponent extends Component {
 
     // Remove any event listeners
     canvas.removeEventListener('mousedown', this.mouseDown);
+    canvas.removeEventListener('mousemove', this.mouseMove);
     canvas.removeEventListener('mouseup', this.mouseUp);
 
-    window.removeEventListener('mousemove', this.mouseMove);
     window.removeEventListener('resize', this.handleResize);
   }
 
